@@ -1,4 +1,4 @@
-# 🛡️ ARP Poisoning (MiTM) Attack & Detection Lab
+# ARP Poisoning (MiTM) Attack & Detection Lab
 
 **Ettercap + Wireshark | Network Traffic Analysis | SOC-Focused Project**
 
@@ -6,7 +6,7 @@ Note: This documentation was refined using AI-assisted editing to improve clarit
 
 ---
 
-## 📌 Executive Summary
+## Executive Summary
 
 This project simulates a **Man-in-the-Middle (MiTM) attack via ARP poisoning** and demonstrates how a SOC analyst can **detect, investigate, and validate** the attack using network traffic analysis in Wireshark.
 
@@ -18,7 +18,7 @@ The lab focuses not just on exploitation, but on:
 
 ---
 
-## 🎯 Objectives
+## Objectives
 
 * Simulate ARP poisoning using Ettercap
 * Capture live attack traffic in Wireshark
@@ -28,7 +28,7 @@ The lab focuses not just on exploitation, but on:
 
 ---
 
-## 🧪 Lab Environment
+## Lab Environment
 
 | Role     | System      | Function                  |
 | -------- | ----------- | ------------------------- |
@@ -41,7 +41,7 @@ The lab focuses not just on exploitation, but on:
 
 ---
 
-## ⚙️ Attack Setup (Condensed)
+## Attack Setup (Condensed)
 
 ### 1. Identify Network Targets
 
@@ -67,7 +67,7 @@ sysctl net.ipv4.ip_forward=1
 
 ---
 
-## 🔍 Attack Validation
+## Attack Validation
 
 ### Victim-Side Indicator
 
@@ -75,7 +75,7 @@ sysctl net.ipv4.ip_forward=1
 arp -a
 ```
 
-✅ **Observed Behavior:**
+**Observed Behavior:**
 
 * Gateway IP resolves to attacker’s MAC address
 * Confirms ARP cache poisoning
@@ -89,20 +89,20 @@ While MiTM is active:
 * Victim sends traffic (e.g., `ping 8.8.8.8`, web browsing)
 * Attacker captures packets via Wireshark
 
-📌 **Key Insight:**
+**Key Insight:**
 Traffic is transparently relayed through the attacker due to IP forwarding.
 
 ---
 
-## 🧠 Detection Analysis (SOC Perspective)
+## Detection Analysis (SOC Perspective)
 
-### 🔎 Initial Triage Filter Wireshark
+### Initial Triage Filter Wireshark
 
 ```
 arp
 ```
 
-### 🚨 Indicators of Compromise (IoCs)
+### Indicators of Compromise (IoCs)
 
 | Indicator                   | Description                                  |
 | --------------------------- | -------------------------------------------- |
@@ -113,7 +113,7 @@ arp
 
 ---
 
-## 🧬 Deep Packet Analysis
+## Deep Packet Analysis
 
 ### Suspicious Packet Characteristics:
 
@@ -128,13 +128,13 @@ arp
     * Gateway → Victim
     * Victim → Gateway
 
-📌 These packets are **forged identity assertions**
+These packets are **forged identity assertions**
 
 ---
 
-## 🎯 Custom Detection Filter
+## Custom Detection Filter
 
-### 🔐 Wireshark Filter
+### Wireshark Filter
 
 ```
 ((arp.src.proto_ipv4 == xx.xx.xx.1) && (arp.opcode == 2)) && !(arp.src.hw_mac == <LEGIT_GATEWAY_MAC>)
@@ -142,7 +142,7 @@ arp
 
 ---
 
-### 🧠 Detection Logic
+### Detection Logic
 
 This filter isolates:
 
@@ -152,7 +152,7 @@ This filter isolates:
 
 ---
 
-### 💾 SOC Workflow Integration
+### SOC Workflow Integration
 
 * Save filter as: `ARP_Poison_Detection`
 * Add to Wireshark profile for rapid triage
@@ -163,7 +163,7 @@ This filter isolates:
 
 ---
 
-## 🔄 Attack Flow (Analyst View)
+## Attack Flow (Analyst View)
 
 1. Attacker sends forged ARP replies
 2. Victim updates ARP table → trusts attacker as gateway
@@ -173,7 +173,7 @@ This filter isolates:
 
 ---
 
-## 🛑 Mitigation Strategies
+## Mitigation Strategies
 
 | Control                      | Description                             |
 | ---------------------------- | --------------------------------------- |
@@ -185,7 +185,7 @@ This filter isolates:
 
 ---
 
-## 📈 SOC Analyst Takeaways
+## SOC Analyst Takeaways
 
 * ARP poisoning is **low complexity, high impact**
 * Detection relies on **behavioral anomalies**, not signatures alone
@@ -197,7 +197,7 @@ This filter isolates:
 
 ---
 
-## 🚀 Skills Demonstrated
+## Skills Demonstrated
 
 * Network Traffic Analysis (Wireshark)
 * Threat Detection & Triage
@@ -208,7 +208,7 @@ This filter isolates:
 
 ---
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 This project was conducted in a **controlled lab environment** for educational purposes only. No unauthorized systems or networks were targeted.
 
